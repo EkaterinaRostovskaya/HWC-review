@@ -103,8 +103,6 @@ ggp + geom_abline(intercept = -1537.90, slope = 0.77,
                   colour = "slategray4", linetype = "dashed", size = 1.1)+
   theme(text = element_text(size = 17)) 
 
-ggp +  coord_flip() + scale_x_reverse()
-
 
 #Donutpies ----
 library(ggsci)
