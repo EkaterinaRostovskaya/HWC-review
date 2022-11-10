@@ -1,12 +1,9 @@
-setwd("D:/UNI/000 Iza/PhD on Data/Review - graphics for Tani")
-
-#figures for the review
+#Figures for the review
 
 #Sankey diagram ----
 library(highcharter)
 library(htmlwidgets)
 
-Sankey <- read.delim("D:/UNI/000 Iza/PhD on Data/Review - graphics for Tani/Sankey.txt")
 View(Sankey)
 
 Sankey$Species <- as.character(Sankey$Species)
@@ -21,7 +18,6 @@ taxa <- Sankey$Vertebrate_taxa
 
 d <- data.frame(cbind(Cont, taxa, troph))
 names(d) <- c('Continents', 'Vertebrate_taxa', 'Trophic_level')
-
 
 highchart() %>%
   hc_add_series(data = data_to_sankey(d), type = "sankey"
@@ -46,15 +42,15 @@ highchart() %>%
                                                   , borderWidth = 1
                                                   , borderColor = 'slategray'
                                                   , padding = 1
-                                                  , shadow = FALSE
-                                                  
+                                                  , shadow = FALSE                                                 
   )))
+
+
 #Wordcloud ----
 library(wordcloud)
 library(RColorBrewer)
 
 #species wordcloud
-Species <- read.delim("D:/UNI/000 Iza/PhD on Data/Review - graphics for Tani/Keywords_species.txt")
 View(Species)
 Species$species <- as.character(Species$species)
 Species$trophic <- as.character(Species$trophic)
@@ -64,7 +60,6 @@ wordcloud(Species$species, Species$species_n, min.freq = 1, max.words = 220,
           colors = Species$col, ordered.colors = T, rot.per = 0.30)
 
 #relations (attitude) wordcloud
-Relations <- read.delim("D:/UNI/000 Iza/PhD on Data/Review - graphics for Tani/Keywords_relations.txt")
 View(Relations)
 Relations$relation <- as.character(Relations$relation)
 Relations$col <- as.character(Relations$col)
@@ -73,23 +68,20 @@ wordcloud(Relations$relation, Relations$n, min.freq = 1, max.words = 800,
           colors = Relations$col, ordered.colors = T, rot.per = 0.60)
 
 #topic wordcloud
-What <- read.delim("D:/UNI/000 Iza/PhD on Data/Review - graphics for Tani/Keywords_what.txt")
 View(What)
 What$what.was.tested <- as.character(What$what.was.tested)
 
 wordcloud(What$what.was.tested, What$n, min.freq = 1, max.words = 800,
           rot.per = 0.60, colors=brewer.pal(10, "Paired"))
 
+
 #Barchart ----
 library(ggplot2)
 library(dplyr)
 
-years <- read.delim("D:/UNI/000 Iza/PhD on Data/Review - graphics for Tani/years.txt")
 View(years)
-
 years$col <- as.character(years$col)
 hchart(years, "bar", width = 8, hcaes(x = year, y = number, color = col))
-
 
 legend_title<-"Decade"
 ggp <- ggplot(years, aes(x = year, y = number, fill = col))+   
@@ -100,7 +92,7 @@ ggp <- ggplot(years, aes(x = year, y = number, fill = col))+
   scale_x_continuous(breaks=c(2000,2002,2004,2006,2008,2010,2012,2014,2016,2018,2020)) +
   theme_classic()
 
-#for the line
+#Regression
 regf <- lm(number~year, data = years)
 regf
 #Coefficients:
@@ -111,16 +103,13 @@ ggp + geom_abline(intercept = -1537.90, slope = 0.77,
                   colour = "slategray4", linetype = "dashed", size = 1.1)+
   theme(text = element_text(size = 17)) 
 
-#fancy one
 ggp +  coord_flip() + scale_x_reverse()
 
 
-
-
 #Donutpies ####
-taxa <- read.delim("D:/UNI/000 Iza/PhD on Data/Review - graphics for Tani/Continent_taxa.txt")
-View(taxa)
 library(ggsci)
+View(taxa)
+
 ggplot(data = taxa, aes (x=2, y = Africa, fill = topic))+
   geom_bar(stat = "identity")+  coord_polar("y", start = 200) + theme_void() +
   xlim(.2,2.5) + scale_fill_npg()
